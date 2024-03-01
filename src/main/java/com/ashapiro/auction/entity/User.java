@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -22,6 +19,9 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
     @Column(nullable = false, name = "first_name")
     private String firstName;
 
@@ -35,12 +35,7 @@ public class User {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Setter(AccessLevel.PRIVATE)
-    @ManyToMany
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
+    @ManyToMany(mappedBy = "users")
     private Set<Role> roles = new HashSet<>();
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
@@ -51,4 +46,9 @@ public class User {
 
     @OneToMany(mappedBy = "customer")
     private List<Bid> bids = new ArrayList<>();
+
+    public void addRole(Role role) {
+        roles.add(role);
+        role.getUsers().add(this);
+    }
 }
