@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     private void addUserRole(User user) {
         Role role = roleService.findByName("ROLE_USER");
-        user.getRoles().add(role);
+        user.addRole(role);
     }
 
     private User createUserFromRequest(RegisterUserDto request) {
