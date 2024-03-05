@@ -20,7 +20,7 @@ public class Role {
     private String name;
 
     @Setter(AccessLevel.PRIVATE)
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "role_id"),

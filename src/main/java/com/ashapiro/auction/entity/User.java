@@ -46,9 +46,4 @@ public class User {
 
     @OneToMany(mappedBy = "customer")
     private List<Bid> bids = new ArrayList<>();
-
-    public void addRole(Role role) {
-        roles.add(role);
-        role.getUsers().add(this);
-    }
 }

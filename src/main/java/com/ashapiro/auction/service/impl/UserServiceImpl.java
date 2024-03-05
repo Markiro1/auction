@@ -23,17 +23,27 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final RoleService roleService;
+
     @Transactional
     @Override
     public UserResponseDto save(RegisterUserDto request) {
         validateEmail(request.getEmail());
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
-        request.setPassword(encodedPassword);
-        User user = convertToUserFromRequest(request);
-        Role role = roleService.findByName("ROLE_USER");
-        user.addRole(role);
+        User user = createUserFromRequest(request);
+        addUserRole(user);
         userRepository.save(user);
         return new UserResponseDto(user.getId(), user.getEmail());
+    }
+
+    private void addUserRole(User user) {
+        Role role = roleService.findByName("ROLE_USER");
+        user.getRoles().add(role);
+    }
+
+    private User createUserFromRequest(RegisterUserDto request) {
+        User user = convertToUserFromRequest(request);
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        return user;
     }
 
     private void validateEmail(String email) {
