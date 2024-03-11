@@ -42,4 +42,9 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<Auction> auctions = new ArrayList<>();
+
+    public void addOwner(User owner) {
+       this.owner = owner;
+       owner.getProducts().add(this);
+    }
 }
