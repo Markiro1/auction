@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,4 +30,12 @@ public class Auction {
 
     @OneToMany(mappedBy = "auction")
     private List<Bid> bids = new ArrayList<>();
+
+    @Column(nullable = false, name = "created_at")
+    private LocalDateTime localDateTime = LocalDateTime.now();
+
+    public void addProduct(Product product) {
+        this.product = product;
+        product.getAuctions().add(this);
+    }
 }
