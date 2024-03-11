@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -32,6 +34,11 @@ public class UserServiceImpl implements UserService {
         addUserRole(user);
         userRepository.save(user);
         return new UserResponseDto(user.getId(), user.getEmail());
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findUserByEmail(email);
     }
 
     private void addUserRole(User user) {
