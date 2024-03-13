@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ProductDto {
+public class ProductWithEmailDto {
     private String name;
     private Long quantity;
     private BigDecimal askingPrice;
