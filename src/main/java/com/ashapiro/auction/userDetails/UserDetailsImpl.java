@@ -15,6 +15,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
+    private final Long id;
     private final String email;
     private final String password;
     private final Set<SimpleGrantedAuthority> roles;
