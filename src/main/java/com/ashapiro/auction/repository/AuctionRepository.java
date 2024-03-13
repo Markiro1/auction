@@ -1,7 +1,6 @@
 package com.ashapiro.auction.repository;
 
 import com.ashapiro.auction.dto.auction.AuctionDto;
-import com.ashapiro.auction.dto.product.ProductDto;
 import com.ashapiro.auction.entity.Auction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
