@@ -1,6 +1,8 @@
 package com.ashapiro.auction.service.impl;
 
 import com.ashapiro.auction.dto.product.ProductDto;
+import com.ashapiro.auction.dto.product.ProductWithEmailDto;
+import com.ashapiro.auction.dto.product.SimpleProductDto;
 import com.ashapiro.auction.entity.Product;
 import com.ashapiro.auction.entity.User;
 import com.ashapiro.auction.repository.ProductRepository;
@@ -25,20 +27,30 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void add(ProductDto productDto) {
-        Product product = modelMapper.map(productDto, Product.class);
-        User owner = userService.findByEmail(productDto.getEmail()).orElseThrow();
+    public void add(ProductWithEmailDto productWithEmailDto) {
+        Product product = modelMapper.map(productWithEmailDto, Product.class);
+        User owner = userService.findByEmail(productWithEmailDto.getEmail()).orElseThrow();
         product.addOwner(owner);
         productRepository.save(product);
     }
 
     @Override
     public Optional<Product> getProductByUserAndName(User user, String name) {
-        return productRepository.getProductByUserAndName(user, name);
+        return productRepository.findProductByOwnerAndName(user, name);
     }
 
     @Override
-    public List<ProductDto> getAllProductsWithUserEmail() {
+    public List<ProductWithEmailDto> getAllProductsWithUserEmail() {
         return productRepository.getAllProductsWithUserEmail();
+    }
+
+    @Override
+    public List<SimpleProductDto> getProductsByUserId(Long id) {
+        return productRepository.findProductByOwnerId(id);
+    }
+
+    @Override
+    public Optional<ProductDto> getProductById(Long id) {
+        return productRepository.findProductById(id);
     }
 }
