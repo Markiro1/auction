@@ -5,6 +5,7 @@ import com.ashapiro.auction.dto.jwt.JwtResponseDto;
 import com.ashapiro.auction.exceptions.ErrorResponse;
 import com.ashapiro.auction.jwt.JwtTokenUtils;
 import com.ashapiro.auction.service.AuthService;
+import com.ashapiro.auction.userDetails.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
                     new UsernamePasswordAuthenticationToken(request.email(), request.password()
                     ));
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String token = jwtTokenUtils.generateToken(userDetails);
+            String token = jwtTokenUtils.generateToken((UserDetailsImpl) userDetails);
             return ResponseEntity.ok(new JwtResponseDto(token));
         } catch (BadCredentialsException e) {
             return new ResponseEntity(new ErrorResponse(
